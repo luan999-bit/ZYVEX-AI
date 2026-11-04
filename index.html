@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090711">
+<title>ZYVEX AI — Criar vídeo</title>
+<style>
+:root{--bg:#090711;--panel:#151222;--panel2:#1c1730;--line:#302746;--purple:#8b5cf6;--pink:#c084fc;--text:#f7f4ff;--muted:#aaa1bc;--good:#4ade80}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#34205d 0,transparent 38%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1040px;margin:auto;padding:22px 18px 50px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:30px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:.08em;font-size:19px}.logo{width:37px;height:37px;border-radius:12px;background:linear-gradient(135deg,#a78bfa,#6d28d9);display:grid;place-items:center;box-shadow:0 5px 25px #8b5cf655}.logo:after{content:"▶";font-size:15px;margin-left:2px}
+.plan{border:1px solid #59417f;background:#211936;color:#d9c7ff;border-radius:999px;padding:9px 13px;font-size:12px;font-weight:700}
+h1{font-size:clamp(28px,5vw,40px);margin:0 0 8px;letter-spacing:-.04em} .sub{color:var(--muted);margin:0 0 25px;line-height:1.5}
+.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(250px,.8fr);gap:18px;align-items:start}
+.card{background:linear-gradient(160deg,#191428,#110e1b);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 14px 45px #0003}
+.section{margin-bottom:23px}.section:last-child{margin-bottom:0}.label{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:750;margin-bottom:11px}.hint{font-size:11px;color:var(--muted);font-weight:500}
+.models{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.model{border:1px solid var(--line);border-radius:14px;background:#110e1b;padding:13px;text-align:left;color:var(--text);cursor:pointer;transition:.18s}
+.model:hover{border-color:#8662c9}.model.active{border-color:#a78bfa;background:linear-gradient(135deg,#30204e,#1b1530);box-shadow:0 0 0 1px #a78bfa33}
+.model b{display:block;font-size:14px;margin-bottom:5px}.model small{color:var(--muted);font-size:11px}.cost{float:right;color:#d8b4fe;font-size:11px;font-weight:800}
+textarea{width:100%;min-height:130px;resize:vertical;background:#100d19;border:1px solid var(--line);border-radius:13px;padding:14px;color:var(--text);font:14px/1.5 inherit;outline:none}textarea:focus,input:focus{border-color:#a78bfa}
+.drop{border:1.5px dashed #5b4a78;background:#110e1b;border-radius:14px;padding:20px;text-align:center;cursor:pointer;color:var(--muted);font-size:12px;min-height:112px;display:grid;place-content:center;gap:7px}
+.drop strong{color:#e9ddff;font-size:13px}.drop input{display:none}.preview{max-width:100%;max-height:150px;border-radius:10px;margin:8px auto 0;display:none}
+.durations{display:flex;gap:8px;flex-wrap:wrap}.duration{border:1px solid var(--line);background:#100d19;color:var(--muted);border-radius:10px;padding:10px 13px;font-size:12px;cursor:pointer}.duration.active{background:#2b1d46;border-color:#a78bfa;color:white}.duration:disabled{opacity:.35;cursor:not-allowed}
+.generate{width:100%;border:0;border-radius:13px;padding:15px;background:linear-gradient(100deg,#8b5cf6,#a855f7);color:white;font-size:15px;font-weight:850;cursor:pointer;box-shadow:0 8px 25px #8b5cf644}.generate:hover{filter:brightness(1.1)}
+.side h3{margin:0 0 15px;font-size:16px}.credit{display:flex;justify-content:space-between;align-items:center;background:#100d19;border:1px solid var(--line);border-radius:13px;padding:13px;margin-bottom:15px}.credit strong{font-size:21px;color:#d8b4fe}.credit span{font-size:11px;color:var(--muted)}
+.info{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #2a2239;font-size:12px;color:var(--muted);line-height:1.45}.info:last-child{border:0}.dot{color:#c4a7ff;font-size:17px;line-height:1}
+.notice{margin-top:15px;padding:12px;border-radius:12px;background:#201a2d;color:#bfb3d2;font-size:11px;line-height:1.5}
+#message{display:none;margin-top:13px;padding:12px;border-radius:12px;background:#14251d;border:1px solid #28563a;color:#b7f7ca;font-size:12px;line-height:1.5}
+footer{text-align:center;color:#766d88;font-size:11px;margin-top:25px}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.wrap{padding:17px 13px 35px}.card{padding:16px}.top{margin-bottom:25px}.side{order:2}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand"><div class="logo"></div>ZYVEX <span style="color:#c4a7ff">AI</span></div>
+    <div class="plan">PLANO FREE · 15 CRÉDITOS/DIA</div>
+  </header>
+  <h1>Transforme sua ideia em vídeo.</h1>
+  <p class="sub">Descreva o que você imaginou, escolha o modelo e crie.</p>
+
+  <div class="layout">
+    <main class="card">
+      <div class="section">
+        <div class="label">1. Escolha o modelo <span class="hint">Selecione a qualidade</span></div>
+        <div class="models">
+          <button class="model active" data-model="Fast" data-cost="5"><span class="cost">5 créditos</span><b>⚡ Fast</b><small>Rápido e econômico</small></button>
+          <button class="model" data-model="Standard" data-cost="10"><span class="cost">10 créditos</span><b>✦ Standard</b><small>Equilíbrio entre qualidade e velocidade</small></button>
+          <button class="model" data-model="Pro" data-cost="20"><span class="cost">20 créditos</span><b>◆ Pro</b><small>Mais detalhes e qualidade</small></button>
+          <button class="model" data-model="Ultra" data-cost="35"><span class="cost">35 créditos</span><b>✧ Ultra</b><small>Qualidade máxima</small></button>
+        </div>
+      </div>
+      <div class="section">
+        <div class="label">2. Descreva seu vídeo <span class="hint">Seja específico</span></div>
+        <textarea id="prompt" placeholder="Ex.: Um personagem caminhando por uma rua movimentada ao pôr do sol, câmera acompanhando de frente, iluminação cinematográfica..."></textarea>
+      </div>
+      <div class="section">
+        <div class="label">3. Imagem de referência <span class="hint">Opcional</span></div>
+        <label class="drop" for="imageInput">
+          <strong>＋ Enviar uma imagem</strong>
+          Clique para escolher uma foto do seu aparelho
+          <input id="imageInput" type="file" accept="image/*">
+          <img class="preview" id="preview" alt="Prévia da imagem enviada">
+        </label>
+      </div>
+      <div class="section">
+        <div class="label">4. Duração do vídeo</div>
+        <div class="durations">
+          <button class="duration active" data-seconds="10">10 segundos</button>
+          <button class="duration" data-seconds="30" disabled title="Disponível nos planos PRO e ULTRA">30 segundos 🔒</button>
+          <button class="duration" data-seconds="60" disabled title="Disponível no plano ULTRA">60 segundos 🔒</button>
+        </div>
+        <div class="hint" style="margin-top:9px">No plano FREE, a duração máxima é de 10 segundos.</div>
+      </div>
+      <button class="generate" id="generate">✦ Gerar vídeo · 5 créditos</button>
+      <div id="message">Esta é uma demonstração da interface. A geração real será ativada quando conectarmos um serviço de IA de vídeo.</div>
+    </main>
+
+    <aside class="card side">
+      <h3>Seu espaço de criação</h3>
+      <div class="credit"><div><span>Créditos disponíveis hoje</span><br><strong>15</strong></div><span>de 15 créditos</span></div>
+      <div class="info"><span class="dot">✓</span><span>Até 3 vídeos Fast de 10 segundos por dia no plano FREE.</span></div>
+      <div class="info"><span class="dot">✓</span><span>Envie uma imagem para usar como referência visual.</span></div>
+      <div class="info"><span class="dot">✓</span><span>Escolha o modelo que combina com seu projeto.</span></div>
+      <div class="notice">Quer vídeos mais longos? Os planos PRO permitem até 30 segundos e o ULTRA até 60 segundos. Os limites e benefícios serão aplicados conforme a assinatura.</div>
+    </aside>
+  </div>
+  <footer>ZYVEX AI · SUA IDEIA, EM VÍDEO.</footer>
+</div>
+<script>
+let selectedModel='Fast', selectedCost=5, selectedDuration=10;
+document.querySelectorAll('.model').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.model').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active'); selectedModel=btn.dataset.model; selectedCost=Number(btn.dataset.cost);
+  updateButton();
+}));
+document.querySelectorAll('.duration:not(:disabled)').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.duration').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active'); selectedDuration=Number(btn.dataset.seconds); updateButton();
+}));
+function updateButton(){document.getElementById('generate').textContent=`✦ Gerar vídeo · ${selectedCost} créditos`;}
+document.getElementById('imageInput').addEventListener('change',e=>{
+ const file=e.target.files[0]; if(!file)return;
+ const img=document.getElementById('preview'); img.src=URL.createObjectURL(file); img.style.display='block';
+});
+document.getElementById('generate').addEventListener('click',()=>{
+ const prompt=document.getElementById('prompt').value.trim();
+ const msg=document.getElementById('message');
+ if(!prompt){msg.style.display='block';msg.textContent='Escreva uma descrição para seu vídeo antes de continuar.';return;}
+ msg.style.display='block';
+ msg.textContent=`Configuração selecionada: ${selectedModel}, ${selectedDuration} segundos, ${selectedCost} créditos. Esta é uma demonstração; a geração real será ativada após conectar um serviço de IA de vídeo.`;
+});
+</script>
+</body>
+</html>
